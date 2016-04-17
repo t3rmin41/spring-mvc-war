@@ -1,14 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
-<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<c:set var="contextPath" value="${pageContext.request.contextPath}" scope="request" />
+<%@ taglib prefix="base" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <html>
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Index page</title>
-    <script type="text/javascript" src="${contextPath}/frontend-resources/js/jquery/jquery-1.11.2.min.js"></script>
-</head>
+<base:common-header pageTitle="Index page" />
 <body>
     <div>
         <a href="${contextPath}?mylocale=en">English </a> | <a href="${contextPath}?mylocale=ru"> Russian </a>
@@ -16,10 +10,16 @@
     <div>
         Greeting : <spring:message code="greeting.message"/>
     </div>
-</body>
-<script>
-$(document).ready(function() {
-    console.log("ready!");
-});
+    <div>
+        Context path is "${contextPath}"
+    </div>
+    <div>
+        <c:out><a href="${contextPath}/users/view">User view</a></c:out>
+    </div>
+<script type="text/javascript">
+    $(document).ready(function() {
+        console.log("index page is ready! Context path is \"${contextPath}\"");
+    });
 </script>
+</body>
 </html>

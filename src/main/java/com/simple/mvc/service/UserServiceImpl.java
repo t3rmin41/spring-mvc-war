@@ -16,8 +16,7 @@ public class UserServiceImpl implements UserService {
     
     @Override
     public List<User> getAllUsers() {
-        // TODO Auto-generated method stub
-        return null;
+        return userMapper.getAllUsers();
     }
 
     @Override
@@ -28,8 +27,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserById(Long id) {
-        // TODO Auto-generated method stub
-        return null;
+        return userMapper.getUserById(id);
     }
 
     @Override

@@ -22,33 +22,41 @@ public class UserController {
     
     @RequestMapping(value = "/users/view", method = RequestMethod.GET)
     public String viewUsersPage() {
-        return "user/userList";
+        return "user/userView";
     }
     
-    @RequestMapping(value = "/users/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/users/view/{id}", method = RequestMethod.GET)
+    public String viewUserEditPage(@PathVariable Long id, Model model) {
+        model.addAttribute("userId", id); //this id can be replaced by hash from DB for security, not from HTTP GET request
+        return "user/userEditPage";
+    }
+    
+    @ResponseBody
+    @RequestMapping(value = "/users/{id}", method = RequestMethod.GET, produces = {"application/json; charset=utf-8","application/xml; charset=utf-8"})
     public User getUserById(@PathVariable Long id) {
         return userService.getUserById(id);
     }
     
-    @RequestMapping(value = "/users/create", method = RequestMethod.POST)
+    @ResponseBody
+    @RequestMapping(value = "/users/create", method = RequestMethod.POST, produces = {"application/json; charset=utf-8","application/xml; charset=utf-8"})
     public User createNewUser(@ModelAttribute("newuser") User newUser) {
         return userService.createUser(newUser);
     }
 
     @ResponseBody
-    @RequestMapping(value = "/users", method = RequestMethod.GET)
+    @RequestMapping(value = "/users", method = RequestMethod.GET, produces = {"application/json; charset=utf-8","application/xml; charset=utf-8"})
     public List<User> getAllUsers() {
         return userService.getAllUsers();
     }
     
     @ResponseBody
-    @RequestMapping(value = "/users/edit/{id}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/users/edit/{id}", method = RequestMethod.PUT, produces = {"application/json; charset=utf-8","application/xml; charset=utf-8"})
     public User editUser(@ModelAttribute("edituser") User editUser) {
         return userService.updateUser(editUser);
     }
     
     @ResponseBody
-    @RequestMapping(value = "/users/delete/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/users/delete/{id}", method = RequestMethod.DELETE, produces = {"application/json; charset=utf-8","application/xml; charset=utf-8"})
     public Long deleteUser(@PathVariable Long id) {
         return userService.deleteUserById(id);
     }
