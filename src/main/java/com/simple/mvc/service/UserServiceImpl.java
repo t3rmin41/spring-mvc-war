@@ -21,8 +21,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User createUser(User user) {
-        // TODO Auto-generated method stub
-        return null;
+        return userMapper.createUser(user);
     }
 
     @Override
@@ -37,8 +36,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Long deleteUserById(Long id) {
-        // TODO Auto-generated method stub
-        return null;
+        return userMapper.deleteUser(id);
     }
 
 }

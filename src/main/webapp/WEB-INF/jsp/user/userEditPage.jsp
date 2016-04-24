@@ -17,10 +17,15 @@
             <tbody>
             </tbody>
             <tfoot>
+                <tr id="updatedUserResult">
+                </tr>
             </tfoot>
             </table>
             <input type="submit" value="Edit user" />
         </form>
+    </div>
+    <div>
+        <a href="${contextPath}/users/view">Go back to users view</a>
     </div>
 <script type="text/javascript">
 $(document).ready(function() {
@@ -32,6 +37,7 @@ $(document).ready(function() {
             url: "${contextPath}/users/${userId}",
             success: function(resultData){
                 var tableBody = $("#userInfoTable > tbody");
+                tableBody.html("");
                 tableBody.append("<tr>" +
                         "<td><input type=\"text\" name=\"username\" value=\"" + resultData.username + "\"/></td>" +
                         "<td><input type=\"text\" name=\"email\" value=\"" + resultData.email + "\"/></td>" +
@@ -58,13 +64,21 @@ $(document).ready(function() {
             contentType: "application/json; charset=utf-8",
             data : JSON.stringify(editUserMap),
             success: function(resultData){
+                /*
                 var tableBody = $("#userInfoTable > tbody");
-                tableBody.html("");
                 tableBody.append("<tr>" +
                         "<td><input type=\"text\" name=\"username\" value=\"" + resultData.username + "\"/></td>" +
                         "<td><input type=\"text\" name=\"email\" value=\"" + resultData.email + "\"/></td>" +
                         "</tr>"
                        );
+                /**/
+                var updatedUserResultRow = $("#userInfoTable > tfoot > tr#updatedUserResult");
+                updatedUserResultRow.html("");
+                if (resultData.updated) {
+                    updatedUserResultRow.append("<td colspan=2>User updated successfully</td>");
+                } else {
+                    updatedUserResultRow.append("<td colspan=2>User not updated</td>");
+                }
             },
             error: function(xhr, textStatus, errorThrown){
                 console.log(xhr);
