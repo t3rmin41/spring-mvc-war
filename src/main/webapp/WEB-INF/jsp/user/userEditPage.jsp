@@ -7,20 +7,20 @@
         <div>
              <input id="loadUserButton" type="button" value="Load user data" /> 
         </div>
-        <table id="userInfoTable" border="1">
-        <thead>
-            <tr>
-                <th colspan=2>Database ID = ${userId}</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Username</td><td>Email</td>
-            </tr>
-        </tbody>
-        <tfoot>
-        </tfoot>
-        </table>
+        <form id="editUserForm" action="javascript:void(0);">
+            <table id="userInfoTable" border="1">
+            <thead>
+                <tr>
+                    <th colspan=2>Database ID = ${userId}</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+            <tfoot>
+            </tfoot>
+            </table>
+            <input type="submit" value="Edit user" />
+        </form>
     </div>
 <script type="text/javascript">
 $(document).ready(function() {
@@ -33,8 +33,36 @@ $(document).ready(function() {
             success: function(resultData){
                 var tableBody = $("#userInfoTable > tbody");
                 tableBody.append("<tr>" +
-                        "<td>" + resultData.username + "</a></td>" +
-                        "<td>" + resultData.email + "</td>" +
+                        "<td><input type=\"text\" name=\"username\" value=\"" + resultData.username + "\"/></td>" +
+                        "<td><input type=\"text\" name=\"email\" value=\"" + resultData.email + "\"/></td>" +
+                        "</tr>"
+                       );
+            },
+            error: function(xhr, textStatus, errorThrown){
+                console.log(xhr);
+             }
+        });
+    });
+    
+    $("#editUserForm").submit(function(event) {
+        //var editUserMap = {"edituser": {}};
+        var editUserMap = { "id": ${userId} };
+        $("#editUserForm > table > tbody > tr > td > input").each(function(index, userDataItem) {
+            //editUserMap.edituser[userDataItem.name] = userDataItem.value
+        	editUserMap[userDataItem.name] = userDataItem.value;
+        });
+        console.log(editUserMap);
+        $.ajax({
+            method: "PUT",
+            url: "${contextPath}/users/edit/${userId}",
+            contentType: "application/json; charset=utf-8",
+            data : JSON.stringify(editUserMap),
+            success: function(resultData){
+                var tableBody = $("#userInfoTable > tbody");
+                tableBody.html("");
+                tableBody.append("<tr>" +
+                        "<td><input type=\"text\" name=\"username\" value=\"" + resultData.username + "\"/></td>" +
+                        "<td><input type=\"text\" name=\"email\" value=\"" + resultData.email + "\"/></td>" +
                         "</tr>"
                        );
             },

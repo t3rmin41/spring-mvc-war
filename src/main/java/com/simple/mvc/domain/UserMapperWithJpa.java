@@ -36,7 +36,7 @@ public class UserMapperWithJpa {
     }
     
     public User updateUser(User user) {
-        UserJpa jpa = singleMapperToJpa(user);
+        UserJpa jpa = editDomainToJpa(user);
         jpa = userRepository.editUser(jpa);
         return singleMapperToDomain(jpa);
     }
@@ -66,6 +66,13 @@ public class UserMapperWithJpa {
         jpa.setAdmin(domain.getIsAdmin());
         jpa.setCreated(domain.getCreated());
         jpa.setUpdated(domain.getUpdated());
+        return jpa;
+    }
+    
+    private UserJpa editDomainToJpa(User domain) {
+        UserJpa jpa = userRepository.getUserJpaById(domain.getId());
+        jpa.setUsername(domain.getUsername());
+        jpa.setEmail(domain.getEmail());
         return jpa;
     }
 }

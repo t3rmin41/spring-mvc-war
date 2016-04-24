@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -38,8 +39,8 @@ public class UserController {
     }
     
     @ResponseBody
-    @RequestMapping(value = "/users/create", method = RequestMethod.POST, produces = {"application/json; charset=utf-8","application/xml; charset=utf-8"})
-    public User createNewUser(@ModelAttribute("newuser") User newUser) {
+    @RequestMapping(value = "/users/create", method = RequestMethod.POST, consumes = {"application/json; charset=utf-8"}, produces = {"application/json; charset=utf-8","application/xml; charset=utf-8"})
+    public User createNewUser(@RequestBody User newUser) {
         return userService.createUser(newUser);
     }
 
@@ -50,8 +51,8 @@ public class UserController {
     }
     
     @ResponseBody
-    @RequestMapping(value = "/users/edit/{id}", method = RequestMethod.PUT, produces = {"application/json; charset=utf-8","application/xml; charset=utf-8"})
-    public User editUser(@ModelAttribute("edituser") User editUser) {
+    @RequestMapping(value = "/users/edit/{id}", method = RequestMethod.PUT, consumes = {"application/json; charset=utf-8"}, produces = {"application/json; charset=utf-8","application/xml; charset=utf-8"})
+    public User editUser(@RequestBody User editUser) {
         return userService.updateUser(editUser);
     }
     
