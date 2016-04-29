@@ -3,6 +3,7 @@
 <html>
 <base:common-header pageTitle="User list" />
 <body>
+<div id="page">
     <div id="userListDiv">
         <table id="userTable" border="1">
         <thead>
@@ -52,11 +53,28 @@
             <input type="submit" value="Create user" />
         </form>
     </div>
+</div>
 <script type="text/javascript">
 function loadUsers() {
     $.ajax({
         method: "GET",
+        headers: {
+            "Content-Type": "application/json; charset=utf-8",
+            "transactionId": "12345678"
+        },
         url: "${contextPath}/users",
+        beforeSend: function() {
+            $("#page").css({
+                "background-color": "#ffffff",
+                "opacity": "0.5"
+            });
+        },
+        complete: function(){
+            $("#page").css({
+                "background-color": "",
+                "opacity": ""
+            });
+        },
         success: function(resultData){
             var tableBody = $("#userTable > tbody");
             tableBody.html("");
@@ -70,6 +88,9 @@ function loadUsers() {
                                  "</tr>"
                                 );
             });
+        },
+        error: function(xhr, textStatus, errorThrown) {
+        	console.log(xhr);
         }
     });
 }

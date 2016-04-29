@@ -47,6 +47,11 @@ public class UserController {
     @ResponseBody
     @RequestMapping(value = "/users", method = RequestMethod.GET, produces = {"application/json; charset=utf-8","application/xml; charset=utf-8"})
     public List<User> getAllUsers() {
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException ie) {
+            ie.printStackTrace();
+        }
         return userService.getAllUsers();
     }
     
